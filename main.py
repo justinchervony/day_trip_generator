@@ -11,7 +11,7 @@ destination_list_length = len(destination_list) - 1
 destination_selected = random.randint(0, destination_list_length)
 restaurant_selected = random.randint(0, len(restaurant_list[destination_selected])-1)
 transportation_selected = random.randint(0, 2)
-entertainment_list = random.randint(0, len(entertainment_list[destination_selected])-1)
+entertainment_selected = random.randint(0, len(entertainment_list[destination_selected])-1)
 
 user_trip_confirmation = False
 
@@ -35,7 +35,7 @@ while user_trip_confirmation == False :
         else:
             print("Hmm...that didn't seem like a valid response. Please type 'y' or 'n'.")
 
-
+    #Resets destination_selected to the original list value so other comparisons still work.
     if destination_list[destination_selected] == "Ireland":
         destination_selected = 0
     elif destination_list[destination_selected] == "New York":
@@ -57,7 +57,7 @@ while user_trip_confirmation == False :
             print("I have no more options to give you. Please restart and try again.")
             sys.exit()
         elif transportation_confirmation_str == "n":
-            transportation_list.remove(current_restaurant)
+            transportation_list.remove(current_transportation)
             transportation_selected = random.randint(0, len(transportation_list) - 1)
             print("Sorry that doesn't work for you. Let me try again...")
         else:
@@ -66,22 +66,42 @@ while user_trip_confirmation == False :
     print("Gotta go fast! Let's continue...")
 
     user_valid_response = False
+    restaurant_selected = random.randint(0, len(restaurant_list[destination_selected])) - 1
+    restaurant_list_selected = restaurant_list[restaurant_selected]
     while user_valid_response == False:
-        restaurant_confirmation_str = input(f"For your dining, how about a {restaurant_list[restaurant_selected]}? y/n ")
-        current_restaurant = restaurant_list[restaurant_selected]
+        restaurant_confirmation_str = input(f"For your dining, how about a {restaurant_list_selected[restaurant_selected]}? y/n ")
+        current_restaurant = restaurant_list_selected[restaurant_selected]
         if  restaurant_confirmation_str == "y":
             user_valid_response = True
             break
-        elif restaurant_confirmation_str == "n" and len(restaurant_list) == 1:
+        elif restaurant_confirmation_str == "n" and len(restaurant_list_selected) == 1:
             print("I have no more options to give you. Please restart and try again.")
             sys.exit()
         elif restaurant_confirmation_str == "n":
-            restaurant_list.remove(current_restaurant)
-            restaurant_selected = random.randint(0, len(restaurant_list) - 1)
+            restaurant_list_selected.remove(current_restaurant)
+            restaurant_selected = random.randint(0, len(restaurant_list_selected) - 1)
             print("Sorry that doesn't work for you. Let me try again...")
         else:
             print("Hmm...that didn't seem like a valid response. Please type 'y' or 'n'.")
 
+    print("Delicious! Let's continue...")
+
+    user_valid_response = False
+    while user_valid_response == False:
+        entertainment_confirmation_str = input(f"For your dining, how about a {entertainment_list[entertainment_selected]}? y/n ")
+        current_entertainment = entertainment_list[entertainment_selected]
+        if  entertainment_confirmation_str == "y":
+            user_valid_response = True
+            break
+        elif entertainment_confirmation_str == "n" and len(entertainment_list) == 1:
+            print("I have no more options to give you. Please restart and try again.")
+            sys.exit()
+        elif entertainment_confirmation_str == "n":
+            entertainment_list.remove(current_entertainment)
+            entertainment_selected = random.randint(0, len(entertainment_list) - 1)
+            print("Sorry that doesn't work for you. Let me try again...")
+        else:
+            print("Hmm...that didn't seem like a valid response. Please type 'y' or 'n'.")
 
     #offer entertainment option loop
     #if user confirms rng entertainment, proceed, else remove option from list and randomly generate another
