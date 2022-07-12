@@ -5,14 +5,16 @@ import sys
 destination_list = ["Ireland", "New York", "Miami", "Aspen"]
 restaurant_list = [["tavern", "steakhouse", "cafe"], ["seafood restaurant", "pizza shop", "diner"], ["steakhouse", "cuban restaurant", "hibachi restaurant"], ["soup and sandwich shop", "vegan restaurant", "bar and grill"]]
 transportation_list = ["rental car", "train", "bike"]
-entertainment_list = [["tour of the Guinness Factory", "drink an Irishman under the table", "explore an old castle"], ["visit Time Square", "go to the museums", "walk through Central Park"], ["go to the beach", "walk on miracle mile", "hit the clubs"], ["go hiking", "go skiing", "go fishing"]]
-destination_list_length = len(destination_list) - 1
+entertainment_list = [["tour the Guinness Factory", "drink an Irishman under the table", "explore an old castle"], ["visit Time Square", "go to the museums", "walk through Central Park"], ["go to the beach", "walk on miracle mile", "hit the clubs"], ["go hiking", "go skiing", "go fishing"]]
+destination_list_length = len(destination_list) - 1 #Number of destinations, adjusting for list number system
 
+#initiating all "selected" parameters
 destination_selected = random.randint(0, destination_list_length)
 restaurant_selected = random.randint(0, len(restaurant_list[destination_selected])-1)
 transportation_selected = random.randint(0, 2)
 entertainment_selected = random.randint(0, len(entertainment_list[destination_selected])-1)
 
+#setting user confirmation to False so the generator will reset on user rejection of trip.
 user_trip_confirmation = False
 
 print("Welcome to the Day Trip Generator! Let's get started...")
@@ -87,25 +89,44 @@ while user_trip_confirmation == False :
     print("Delicious! Let's continue...")
 
     user_valid_response = False
+    entertainment_selected = random.randint(0, len(entertainment_list[destination_selected])) - 1
+    entertainment_list_selected = entertainment_list[entertainment_selected]    
     while user_valid_response == False:
-        entertainment_confirmation_str = input(f"For your dining, how about a {entertainment_list[entertainment_selected]}? y/n ")
-        current_entertainment = entertainment_list[entertainment_selected]
+        entertainment_confirmation_str = input(f"For fun, how would you like to {entertainment_list_selected[entertainment_selected]}? y/n ")
+        current_entertainment = entertainment_list_selected[entertainment_selected]
         if  entertainment_confirmation_str == "y":
             user_valid_response = True
             break
-        elif entertainment_confirmation_str == "n" and len(entertainment_list) == 1:
+        elif entertainment_confirmation_str == "n" and len(restaurant_list_selected) == 1:
             print("I have no more options to give you. Please restart and try again.")
             sys.exit()
         elif entertainment_confirmation_str == "n":
-            entertainment_list.remove(current_entertainment)
-            entertainment_selected = random.randint(0, len(entertainment_list) - 1)
+            restaurant_list_selected.remove(current_entertainment)
+            entertainment_selected = random.randint(0, len(restaurant_list_selected) - 1)
             print("Sorry that doesn't work for you. Let me try again...")
         else:
             print("Hmm...that didn't seem like a valid response. Please type 'y' or 'n'.")
 
-    #offer entertainment option loop
-    #if user confirms rng entertainment, proceed, else remove option from list and randomly generate another
-    #if list length < 1, break the program
+    print("That sounds like a great way to spend your time!")
+    print("")
+    print(f"So your destination is {destination_selected}, your transportation is {transportation_selected}, you picked to eat at a {restaurant_selected}, and you chose to {entertainment_selected}.")
+    user_valid_response = False
+   
+    while user_valid_response == False:
+        user_finalize_trip = input("Do you want to finalize this trip? y/n")
+        if user_finalize_trip == "y":
+            user_valid_response = True
+            user_trip_confirmation = True
+        elif user_finalize_trip =="n":
+            print("Let's go back and remake this trip then!")
+            destination_list = ["Ireland", "New York", "Miami", "Aspen"]
+            restaurant_list = [["tavern", "steakhouse", "cafe"], ["seafood restaurant", "pizza shop", "diner"], ["steakhouse", "cuban restaurant", "hibachi restaurant"], ["soup and sandwich shop", "vegan restaurant", "bar and grill"]]
+            transportation_list = ["rental car", "train", "bike"]
+            entertainment_list = [["tour the Guinness Factory", "drink an Irishman under the table", "explore an old castle"], ["visit Time Square", "go to the museums", "walk through Central Park"], ["go to the beach", "walk on miracle mile", "hit the clubs"], ["go hiking", "go skiing", "go fishing"]]
+            destination_list_length = len(destination_list) - 1
+        else:
+            print("Hmm...that didn't seem like a valid response. Please type 'y' or 'n'.")
+
 
     #display trip selected options. If confirmed, proceed to next. Else go back to the beginning.
 
